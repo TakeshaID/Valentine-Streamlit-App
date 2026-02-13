@@ -1,18 +1,16 @@
 import streamlit as st
 import requests
 import os
+import base64
 
-# Configuration
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "")  # Set this environment variable
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "") 
 
-# Page configuration
 st.set_page_config(
     page_title="Важный вопрос 💕",
     page_icon="💝",
     layout="centered"
 )
 
-# Custom CSS for styling
 st.markdown("""
     <style>
     .stApp {
@@ -77,7 +75,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
 if 'page' not in st.session_state:
     st.session_state.page = 'intro'
 if 'no_clicks' not in st.session_state:
@@ -86,11 +83,9 @@ if 'notification_sent' not in st.session_state:
     st.session_state.notification_sent = False
 
 def send_discord_notification(message):
-    """Send a notification to Discord via webhook"""
     if not DISCORD_WEBHOOK_URL:
         st.warning("Discord webhook is not configured. Please set DISCORD_WEBHOOK_URL environment variable.")
         return False
-    
     try:
         data = {
             "content": message
@@ -101,27 +96,44 @@ def send_discord_notification(message):
         st.error(f"Failed to send Discord notification: {e}")
         return False
 
-# Page 1: Introduction
 if st.session_state.page == 'intro':
     st.markdown('<p class="big-text">Хочу тебя спросить о чём-то важном😄</p>', unsafe_allow_html=True)
-    
-    st.write("")
     
     col1, col2, col3 = st.columns([1, 1, 1])
     
     with col2:
+        file_ = open("akuma-cat.gif", "rb")
+        contents = file_.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
+        file_.close()
+
+        st.markdown(
+            f'<div style="display: flex; justify-content: center;"><img src="data:image/gif;base64,{data_url}" alt="cat gif intro" style="max-width: 100%; height: auto;"></div>',
+            unsafe_allow_html=True,
+        )
+
         if st.button("О чём? 😊", key="what_button", use_container_width=True):
             st.session_state.page = 'question'
             st.rerun()
 
-# Page 2: The Question
 elif st.session_state.page == 'question':
     st.markdown('<p class="question-text">Будешь ли ты моей валентинкой? 💝</p>', unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 1, 1])
     
-    # Calculate button size based on number of "No" clicks
+    with col2:
+        file_ = open("romantice-cat.gif", "rb")
+        contents = file_.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
+        file_.close()
+
+        st.markdown(
+            f'<div style="display: flex; justify-content: center;"><img src="data:image/gif;base64,{data_url}" alt="cat gif" style="max-width: 100%; height: auto;"></div>',
+            unsafe_allow_html=True,
+        )
+    
     button_size = max(0.1, 1 - (st.session_state.no_clicks * 0.15))
     
-    # Apply custom styling for the shrinking "No" button specifically
     st.markdown(f"""
         <style>
         button[data-testid="stBaseButton-secondary"] {{
@@ -152,7 +164,6 @@ elif st.session_state.page == 'question':
     with col3:
         st.write("")
     
-    # Shrinking "No" button
     with col4:
         if st.session_state.no_clicks <= 5:
             if st.button("Нет 😔", key="no_button", type="secondary", use_container_width=True):
@@ -161,15 +172,21 @@ elif st.session_state.page == 'question':
         else:
             st.session_state.no_clicks += 1
 
-# Page 3: Success
 elif st.session_state.page == 'success':
-    # Send Discord notification on first visit to success page
     if not st.session_state.notification_sent:
         send_discord_notification("🎉 Она сказала ДА! 💕")
         st.session_state.notification_sent = True
     
     st.markdown('<p class="success-text">Урааааа! 🥰🎉💖</p>', unsafe_allow_html=True)
     
-    st.write("")
-    st.write("")
-    st.write("")
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        file_ = open("cutest-white-cat.gif", "rb")
+        contents = file_.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
+        file_.close()
+
+        st.markdown(
+            f'<div style="display: flex; justify-content: center;"><img src="data:image/gif;base64,{data_url}" alt="cat gif intro" style="max-width: 100%; height: auto;"></div>',
+            unsafe_allow_html=True,
+        )
