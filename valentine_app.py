@@ -134,7 +134,9 @@ elif st.session_state.page == 'question':
     st.markdown(f"""
         <style>
         button[data-testid="stBaseButton-primary"] {{
+            max-width: 100%;
             transform: scale({1+(1-button_size)}) !important;
+            transform-origin: center;
             transition: transform 0.3s ease !important;
         }}
         </style>
