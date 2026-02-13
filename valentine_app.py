@@ -6,7 +6,7 @@ import base64
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "") 
 
 st.set_page_config(
-    page_title="Важный вопрос 💕",
+    page_title="Один важный вопрос",
     page_icon="💝",
     layout="centered"
 )
