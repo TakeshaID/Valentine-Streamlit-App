@@ -62,6 +62,10 @@ st.markdown("""
         padding: 15px 40px;
         transition: all 0.3s ease;
         text-align: center;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     
     .stButton > button:hover {
@@ -73,6 +77,28 @@ st.markdown("""
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+        .stButton > button {
+            font-size: 1rem !important;
+            padding: 10px 20px !important;
+        }
+        
+        .big-text {
+            font-size: 2rem !important;
+            margin-top: 50px !important;
+        }
+        
+        .question-text {
+            font-size: 2rem !important;
+            margin-top: 40px !important;
+        }
+        
+        .success-text {
+            font-size: 5rem !important;
+            margin-top: 50px !important;
+        }
     }
     </style>
 """, unsafe_allow_html=True)
